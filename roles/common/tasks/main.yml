@@ -1,0 +1,12 @@
+---
+- name: install utils
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+    - git
+    - htop
+
+- name: bash aliases and shortcuts
+  lineinfile:
+    path: /root/.bashrc
+    state: present
+    line: "cd () { builtin cd $@ && ls ; }"

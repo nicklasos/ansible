@@ -1,0 +1,1 @@
+./env/bin/ansible -i ./inventory/$1.ini all -m ping

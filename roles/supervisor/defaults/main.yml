@@ -1,0 +1,5 @@
+---
+# Default supervisor vars
+supervisor_loglevel: info
+supervisor_logfile_maxmb: 10
+supervisor_logfile_backups: 7

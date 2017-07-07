@@ -1,0 +1,36 @@
+---
+# Site
+- hosts: [site]
+  become: yes
+  gather_facts: yes
+  roles:
+    - common
+    - nginx
+    - php7.0
+    - redis
+    - geoip
+    - supervisor
+  tags: site
+
+# MySQL
+- hosts: [mysql]
+  become: yes
+  gather_facts: yes
+  roles:
+    - mysql
+  tags: mysql
+
+# Online
+- hosts: [site,onlie]
+  become: yes
+  become_user: root
+  roles:
+    - nvm
+  tags: online
+
+# Common
+- hosts: [site,mysql,online]
+  become: yes
+  roles:
+    - common
+  tags: common

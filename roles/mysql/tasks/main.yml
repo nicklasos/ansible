@@ -1,0 +1,27 @@
+- name: install mysql
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+    - mysql-server
+    - python-mysqldb
+
+- name: start the MySQL service
+  action: service name=mysql state=restarted
+
+- name: create root password
+  mysql_user: name=root password={{ mysql_root_password }}
+
+- name: allow mysql for root
+  template: src=root.my.cnf.j2 dest=/root/.my.cnf owner=root group=root mode=0644
+
+- name: delete anonymous MySQL server user for "{{ ansible_hostname }}"
+  mysql_user: name="root" host="{{ ansible_hostname }}" password="" state=absent
+
+- name: bind to ip
+  lineinfile:
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    regexp: 'bind-address'
+    line: 'bind-address={{ mysql_bind_address }}'
+
+- name: update mysql root password for all root accounts
+  mysql_user: "name=root password={{ mysql_root_password }} priv=*.*:ALL,GRANT host=%"
+  notify: restart mysql

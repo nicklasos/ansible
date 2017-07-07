@@ -1,0 +1,5 @@
+- name: add some to cron
+  cron:
+    name: laravel cron
+    minute: "*"
+    job: "php /var/www/{{ nginx_root_directory }}/current/artisan schedule:run >> /dev/null 2>&1"

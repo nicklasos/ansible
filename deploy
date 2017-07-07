@@ -1,0 +1,1 @@
+./env/bin/ansible-playbook -i inventory/$1.ini playbooks/csgo.yaml $2
