@@ -1,0 +1,8 @@
+- name: install memcached and extension for php
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+    - memcached
+    - php-memcached
+
+- name: reload php7.0-fpm
+  service: name=php7.0-fpm state=restarted
