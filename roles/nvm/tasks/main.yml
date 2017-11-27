@@ -1,10 +1,29 @@
-- name: install NVM
-  shell: curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
+---
 
-- name: install node and set version
-  shell: /bin/bash -c "source ~/.nvm/nvm.sh && nvm install 8 && nvm use 8"
+# nvm_version and node_version should be provided in inventory file
+# Possible versions:
+# node_version=8.9.1
+# nvm_version=0.33.2
 
-- name: install global node modules
-  shell: /bin/bash -c "source ~/.nvm/nvm.sh && npm i -g {{ item }}"
+- name: Install NVM
+  shell: curl -o- https://raw.githubusercontent.com/creationix/nvm/v{{ nvm_version }}/install.sh | bash
+
+- name: Install node and set version
+  shell: /bin/bash -c "source ~/.nvm/nvm.sh && nvm install {{ node_version }} && nvm use {{ node_version }}"
+
+- name: Add symlink to node
+  file:
+    src: "/root/.nvm/versions/node/v{{ node_version }}/bin/node"
+    dest: "/usr/bin/node"
+    state: link
+
+- name: Add symlink to npm
+  file:
+    src: "/root/.nvm/versions/node/v8.9.1/bin/npm"
+    dest: "/usr/bin/npm"
+    state: link
+
+- name: Install global node modules
+  shell: "npm i -g {{ item }}"
   with_items:
     - pm2
