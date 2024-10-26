@@ -9,12 +9,13 @@ pip3 install virtualenv
 Deploy
 ```
 chmod +x deploy
-./deploy inventory
+./deploy inventory-name app-name
+./deploy my-project app
 ```
 
 With optional tags
 ```
-./deploy inventory --tags=site
+./deploy inventory-name --tags=site
 ```
 
 Ping server
