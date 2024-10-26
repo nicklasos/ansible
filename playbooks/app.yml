@@ -1,0 +1,14 @@
+---
+- hosts: [server]
+  become: yes
+  gather_facts: yes
+  roles:
+    - common
+    - nginx
+    - php8.3
+    - mysql
+    - nvm
+    - redis
+    - generate-ssh-keys
+
+# add-apt-repository ppa:ondrej/php

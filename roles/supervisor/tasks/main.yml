@@ -1,15 +1,15 @@
 ---
 # Install and configure supervisor
 
-- name: install supervisor
+- name: Install supervisor
   apt: name=supervisor state=latest update_cache=yes cache_valid_time=3600
 
-- name: configure supervisord.conf
+- name: Configure supervisord.conf
   template: src=templates/supervisord.conf dest=/etc/supervisor/supervisord.conf
 
-- name: ensure supervisor is running and enabled
+- name: Ensure supervisor is running and enabled
   service: name=supervisor state=started enabled=yes
 
-- name: copy laravel worker config
+- name: Copy laravel worker config
   template: src=templates/laravel-worker.conf dest=/etc/supervisor/conf.d/laravel-worker.conf
   notify: restart supervisor

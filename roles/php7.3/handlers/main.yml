@@ -1,0 +1,7 @@
+- name: Restart php7.3-fpm
+  become: yes
+  service:
+    name: php7.3-fpm
+    state: restarted
+    enabled: yes
+  register: name=php7.3_restarted

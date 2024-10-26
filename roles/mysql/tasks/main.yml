@@ -2,17 +2,35 @@
 - name: Updating server
   apt:
     update_cache: yes
-- name: Installing apt dependencies
+
+- name: Update server cache
   apt:
-   name: "{{item}}"
-  with_items:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Install mysql libs
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
     - python3-pip
     - python3-dev
     - libmysqlclient-dev
+    - python3-venv
 
-- name: Installing pip mysql dependency
+- name: Create virtual environment
+  command: python3 -m venv {{ virtualenv_path }}
+  args:
+    creates: "{{ virtualenv_path }}/bin/activate"
+
+- name: Install mysqlclient with pip
   pip:
     name: mysqlclient
+    virtualenv: "{{ virtualenv_path }}"
+
+- name: Use virtualenv Python for Ansible
+  set_fact:
+    ansible_python_interpreter: "{{ virtualenv_path }}/bin/python"
 
 - name: Install mysql
   apt: name={{ item }} state=present update_cache=yes

@@ -1,0 +1,22 @@
+- name: INSTALL base soft (php, modules)
+  become: yes
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+#    - libcurl4
+#    - php-soap
+    - php8.1-fpm
+    - php8.1-curl
+    - php8.1-mbstring
+    - php8.1-xml
+    - php8.1-bcmath
+    - php8.1-mysql
+    - php8.1-zip
+    - php8.1-bz2
+    - php8.1-sqlite3
+    - php8.1-gd
+    - php8.1-redis
+  notify:
+    - Restart php8.1-fpm
+
+
+# apt-get install --no-install-recommends gcc make libpng-dev

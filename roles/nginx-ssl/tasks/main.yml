@@ -1,0 +1,34 @@
+- name: Install nginx
+  apt: name=nginx state=present update_cache=yes
+
+- name: Install nginx-extras
+  apt: name=nginx state=present update_cache=yes
+
+- name: Remove default nginx config
+  file: path=/etc/nginx/sites-enabled/default state=absent
+
+- name: Setup custom nginx.conf
+  template: src=templates/nginx.conf
+            dest=/etc/nginx/sites-enabled/default
+  notify: reload nginx
+
+- name: Create ssl directory
+  file: path=/etc/nginx/ssl state=directory
+
+- name: Copy certificate
+  template: src=templates/{{ nginx_ssl_crt }}
+            dest=/etc/nginx/ssl/cf.crt
+            backup=yes
+
+- name: Copy certificate key
+  template: src=templates/{{ nginx_ssl_key }}
+            dest=/etc/nginx/ssl/cf.key
+            backup=yes
+
+- name: Setup nginx host
+  template: src="templates/{{ nginx_conf_template }}"
+            dest=/etc/nginx/sites-enabled/default
+  notify: reload nginx
+
+- name: Ensure nginx started
+  service: name=nginx state=restarted enabled=yes

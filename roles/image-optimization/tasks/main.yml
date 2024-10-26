@@ -1,0 +1,12 @@
+- name: Install jpegoptim
+  apt: name=jpegoptim state=present update_cache=yes
+
+- name: Install optipng
+  apt: name=optipng state=present update_cache=yes
+
+- name: Install pngquant
+  apt: name=pngquant state=present update_cache=yes
+
+- name: Install gifsicle
+  apt: name=gifsicle state=present update_cache=yes
+

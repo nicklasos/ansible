@@ -1,9 +1,17 @@
 ---
+
+# Install common utils
+
 - name: install utils
   apt: name={{ item }} state=present update_cache=yes
   with_items:
     - git
     - htop
+    - curl
+    - unzip
+    - acl
+    - pkg-config
+    - supervisor
 
 - name: bash aliases and shortcuts
   lineinfile:

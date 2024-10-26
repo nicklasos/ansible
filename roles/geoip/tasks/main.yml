@@ -1,9 +1,9 @@
-- name: ensure folder exists
+- name: Ensure folder exists
   file: path={{ item }} state=directory recurse=yes
   with_items:
     - "/var/www/{{ nginx_root_directory }}"
 
-- name: install GeoIP
+- name: Install GeoIP
   shell: "{{ item }}"
   with_items:
     - "curl -o /var/www/{{ nginx_root_directory }}/GeoLite2-Country.mmdb.gz http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.mmdb.gz "

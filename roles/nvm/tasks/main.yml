@@ -11,6 +11,11 @@
 - name: Install node and set version
   shell: /bin/bash -c "source ~/.nvm/nvm.sh && nvm install {{ node_version }} && nvm use {{ node_version }}"
 
+- name: Install build dependencies
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+    - libpng-dev
+
 - name: Add symlink to node
   file:
     src: "/root/.nvm/versions/node/v{{ node_version }}/bin/node"
@@ -27,9 +32,17 @@
   shell: "npm i -g {{ item }}"
   with_items:
     - pm2
+    - yarn
+    - cross-env
 
 - name: Add symlink to pm2
   file:
     src: "/root/.nvm/versions/node/v{{ node_version }}/bin/pm2"
     dest: "/usr/bin/pm2"
+    state: link
+
+- name: Add symlink to yarn
+  file:
+    src: "/root/.nvm/versions/node/v{{ node_version }}/bin/yarn"
+    dest: "/usr/bin/yarn"
     state: link

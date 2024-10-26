@@ -1,0 +1,4 @@
+---
+nginx_root_directory: /var/www
+nginx_server_name: localhost
+nginx_conf_template: nginx.conf

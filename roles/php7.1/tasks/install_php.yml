@@ -1,4 +1,4 @@
-- name: install php7.1
+- name: INSTALL base soft (php, modules)
   become: yes
   apt: name={{ item }} state=present update_cache=yes
   with_items:
